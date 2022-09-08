@@ -24,6 +24,8 @@ async function cloneSingleNode<T extends HTMLElement>(
   node: T,
   options: Options,
 ): Promise<HTMLElement> {
+  if (options.clonedClassName) node.classList.add(options.clonedClassName)
+
   if (node instanceof HTMLCanvasElement) {
     return cloneCanvasElement(node)
   }
