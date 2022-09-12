@@ -123,13 +123,13 @@ function decorate<T extends HTMLElement>(
   options: Options,
 ): T {
   if (clonedNode instanceof Element) {
-    if (options.clonedClassName) {
-      clonedNode.classList.add(options.clonedClassName)
-    }
     cloneCSSStyle(nativeNode, clonedNode)
     clonePseudoElements(nativeNode, clonedNode)
     cloneInputValue(nativeNode, clonedNode)
     cloneSelectValue(nativeNode, clonedNode)
+    if (options.clonedClassName) {
+      clonedNode.classList.add(options.clonedClassName)
+    }
   }
 
   return clonedNode

@@ -82,13 +82,13 @@ function cloneSelectValue(nativeNode, clonedNode) {
 }
 function decorate(nativeNode, clonedNode, options) {
     if (clonedNode instanceof Element) {
-        if (options.clonedClassName) {
-            clonedNode.classList.add(options.clonedClassName);
-        }
         cloneCSSStyle(nativeNode, clonedNode);
         clonePseudoElements(nativeNode, clonedNode);
         cloneInputValue(nativeNode, clonedNode);
         cloneSelectValue(nativeNode, clonedNode);
+        if (options.clonedClassName) {
+            clonedNode.classList.add(options.clonedClassName);
+        }
     }
     return clonedNode;
 }
