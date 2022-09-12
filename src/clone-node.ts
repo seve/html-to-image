@@ -24,10 +24,6 @@ async function cloneSingleNode<T extends HTMLElement>(
   node: T,
   options: Options,
 ): Promise<HTMLElement> {
-  if (options.clonedClassName && node.classList) {
-    node.classList.add(options.clonedClassName)
-  }
-
   if (node instanceof HTMLCanvasElement) {
     return cloneCanvasElement(node)
   }
@@ -36,7 +32,12 @@ async function cloneSingleNode<T extends HTMLElement>(
     return cloneVideoElement(node, options)
   }
 
-  return node.cloneNode(false) as T
+  const clonedNode = node.cloneNode(false) as T
+  if (options.clonedClassName && clonedNode.classList) {
+    clonedNode.classList.add(options.clonedClassName)
+  }
+
+  return clonedNode
 }
 
 const isSlotElement = (node: HTMLElement): node is HTMLSlotElement =>

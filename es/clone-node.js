@@ -16,16 +16,17 @@ async function cloneVideoElement(video, options) {
     return createImage(dataURL);
 }
 async function cloneSingleNode(node, options) {
-    if (options.clonedClassName && node.classList) {
-        node.classList.add(options.clonedClassName);
-    }
     if (node instanceof HTMLCanvasElement) {
         return cloneCanvasElement(node);
     }
     if (node instanceof HTMLVideoElement && node.poster) {
         return cloneVideoElement(node, options);
     }
-    return node.cloneNode(false);
+    const clonedNode = node.cloneNode(false);
+    if (options.clonedClassName && clonedNode.classList) {
+        clonedNode.classList.add(options.clonedClassName);
+    }
+    return clonedNode;
 }
 const isSlotElement = (node) => node.tagName != null && node.tagName.toUpperCase() === 'SLOT';
 async function cloneChildren(nativeNode, clonedNode, options) {
