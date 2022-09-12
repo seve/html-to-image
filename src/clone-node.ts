@@ -24,9 +24,9 @@ async function cloneSingleNode<T extends HTMLElement>(
   node: T,
   options: Options,
 ): Promise<HTMLElement> {
-  // eslint-disable-next-line no-console
-  console.log('cloneSingleNode', node)
-  if (options.clonedClassName) node.classList.add(options.clonedClassName)
+  if (options.clonedClassName && node.classList) {
+    node.classList.add(options.clonedClassName)
+  }
 
   if (node instanceof HTMLCanvasElement) {
     return cloneCanvasElement(node)

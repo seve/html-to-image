@@ -16,8 +16,9 @@ async function cloneVideoElement(video, options) {
     return createImage(dataURL);
 }
 async function cloneSingleNode(node, options) {
-    if (options.clonedClassName)
+    if (options.clonedClassName && node.classList) {
         node.classList.add(options.clonedClassName);
+    }
     if (node instanceof HTMLCanvasElement) {
         return cloneCanvasElement(node);
     }
