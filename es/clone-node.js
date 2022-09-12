@@ -86,10 +86,8 @@ function decorate(nativeNode, clonedNode, options) {
         clonePseudoElements(nativeNode, clonedNode);
         cloneInputValue(nativeNode, clonedNode);
         cloneSelectValue(nativeNode, clonedNode);
-        if (options.clonedClassName) {
-            clonedNode.className += ` ${options.clonedClassName}`;
-            // eslint-disable-next-line no-console
-            console.log('NATIVE:', nativeNode.classList, 'CLONED:', clonedNode.classList);
+        if (options.clonedClassName && clonedNode.classList) {
+            clonedNode.classList.add(options.clonedClassName);
         }
     }
     return clonedNode;
