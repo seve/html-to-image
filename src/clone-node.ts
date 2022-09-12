@@ -32,12 +32,7 @@ async function cloneSingleNode<T extends HTMLElement>(
     return cloneVideoElement(node, options)
   }
 
-  const clonedNode = node.cloneNode(false) as T
-  if (options.clonedClassName && clonedNode.classList) {
-    clonedNode.classList.add(options.clonedClassName)
-  }
-
-  return clonedNode
+  return node.cloneNode(false) as T
 }
 
 const isSlotElement = (node: HTMLElement): node is HTMLSlotElement =>
@@ -122,8 +117,15 @@ function cloneSelectValue<T extends HTMLElement>(nativeNode: T, clonedNode: T) {
   }
 }
 
-function decorate<T extends HTMLElement>(nativeNode: T, clonedNode: T): T {
+function decorate<T extends HTMLElement>(
+  nativeNode: T,
+  clonedNode: T,
+  options: Options,
+): T {
   if (clonedNode instanceof Element) {
+    if (options.clonedClassName) {
+      clonedNode.classList.add(options.clonedClassName)
+    }
     cloneCSSStyle(nativeNode, clonedNode)
     clonePseudoElements(nativeNode, clonedNode)
     cloneInputValue(nativeNode, clonedNode)
@@ -145,5 +147,5 @@ export async function cloneNode<T extends HTMLElement>(
   return Promise.resolve(node)
     .then((clonedNode) => cloneSingleNode(clonedNode, options) as Promise<T>)
     .then((clonedNode) => cloneChildren(node, clonedNode, options))
-    .then((clonedNode) => decorate(node, clonedNode))
+    .then((clonedNode) => decorate(node, clonedNode, options))
 }

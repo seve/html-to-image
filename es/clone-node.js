@@ -22,11 +22,7 @@ async function cloneSingleNode(node, options) {
     if (node instanceof HTMLVideoElement && node.poster) {
         return cloneVideoElement(node, options);
     }
-    const clonedNode = node.cloneNode(false);
-    if (options.clonedClassName && clonedNode.classList) {
-        clonedNode.classList.add(options.clonedClassName);
-    }
-    return clonedNode;
+    return node.cloneNode(false);
 }
 const isSlotElement = (node) => node.tagName != null && node.tagName.toUpperCase() === 'SLOT';
 async function cloneChildren(nativeNode, clonedNode, options) {
@@ -84,8 +80,11 @@ function cloneSelectValue(nativeNode, clonedNode) {
         }
     }
 }
-function decorate(nativeNode, clonedNode) {
+function decorate(nativeNode, clonedNode, options) {
     if (clonedNode instanceof Element) {
+        if (options.clonedClassName) {
+            clonedNode.classList.add(options.clonedClassName);
+        }
         cloneCSSStyle(nativeNode, clonedNode);
         clonePseudoElements(nativeNode, clonedNode);
         cloneInputValue(nativeNode, clonedNode);
@@ -100,6 +99,6 @@ export async function cloneNode(node, options, isRoot) {
     return Promise.resolve(node)
         .then((clonedNode) => cloneSingleNode(clonedNode, options))
         .then((clonedNode) => cloneChildren(node, clonedNode, options))
-        .then((clonedNode) => decorate(node, clonedNode));
+        .then((clonedNode) => decorate(node, clonedNode, options));
 }
 //# sourceMappingURL=clone-node.js.map
